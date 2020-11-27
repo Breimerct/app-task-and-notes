@@ -1,4 +1,4 @@
-# Roxana task (roxana-task)
+# Tasks and Notes
 
 es una app para que roxana deje de guardar todos sus archivos en el chat de whatsapp y no me llegue la galeria de tantas fotos y documentos.
 
