@@ -9,10 +9,11 @@
           icon="menu"
           aria-label="Menu"
           @click="leftDrawerOpen = !leftDrawerOpen"
+          v-if="!isMobile"
         />
 
         <q-toolbar-title>
-          {{ 'Roxana task' | uppercase }}
+          {{ 'notes and tasks' | uppercase }}
         </q-toolbar-title>
         <div>
           <q-btn-dropdown flat round icon="account_circle">
@@ -26,7 +27,7 @@
                   </q-item-label>
                 </q-item-section>
               </q-item>
-              <q-item clickable v-close-popup>
+              <q-item clickable v-close-popup :to="{ name: 'profile' }">
                 <q-item-section>
                   <q-item-label>Perfil</q-item-label>
                 </q-item-section>
@@ -44,18 +45,21 @@
     </q-header>
 
     <q-drawer
+      v-if="!isMobile"
       v-model="leftDrawerOpen"
       show-if-above
       bordered
       content-class="bg-grey-1"
     >
       <q-scroll-area
-        style="height: calc(100% - 150px); margin-top: 150px; border-right: 1px solid #ddd"
+        style="
+          height: calc(100% - 150px);
+          margin-top: 150px;
+          border-right: 1px solid #ddd;
+        "
       >
         <q-list>
-          <q-item-label header class="text-grey-8">
-            Menú
-          </q-item-label>
+          <q-item-label header class="text-grey-8"> Menú </q-item-label>
           <EssentialLink
             v-for="link in essentialLinks"
             :key="link.title"
@@ -78,6 +82,10 @@
       </q-img>
     </q-drawer>
 
+    <q-footer reveal elevated class="bg-white">
+      <tabs-links></tabs-links>
+    </q-footer>
+
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -87,31 +95,33 @@
 <script lang="ts">
 import EssentialLink from 'components/EssentialLink.vue';
 import firebase from 'firebase';
+import TabsLinks from 'src/components/TabsLinks.vue';
+
 const linksData = [
   {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  }
+    title: 'Tareas',
+    icon: 'book',
+    link: 'home',
+  },
 ];
 
 import Vue from 'vue';
 
 export default Vue.extend({
   name: 'MainLayout',
-  components: { EssentialLink },
+  components: { EssentialLink, TabsLinks },
   data() {
     return {
       leftDrawerOpen: false,
-      essentialLinks: linksData
+      essentialLinks: linksData,
+      isMobile: this.$q.platform.is.mobile
     };
   },
 
   methods: {
     onClose(): void {
       firebase.auth().signOut();
-    }
-  }
+    },
+  },
 });
 </script>

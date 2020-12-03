@@ -7,15 +7,17 @@ const routes: RouteConfig[] = [
   },
   {
     path: '/dashboard',
+    redirect: '/dashboard/home',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { 
-        path: '/dashboard',
+      {
+        path: 'home',
+        name: 'home',
         component: () => import('pages/Index.vue')
       },
       {
-        path: '/profile',
-        name:'profile',
+        path: 'profile',
+        name: 'profile',
         component: () => import('../pages/user/profile.vue')
       }
     ],
@@ -25,6 +27,7 @@ const routes: RouteConfig[] = [
   },
   {
     path: '/login',
+    name: 'login',
     component: () => import('pages/login/login.vue')
   },
   {
@@ -33,7 +36,13 @@ const routes: RouteConfig[] = [
     component: () => import('pages/login/register.vue')
   },
   {
+    path: '/email-verified',
+    name: 'email-verified',
+    component: () => import('../pages/login/emailVerified.vue')
+  },
+  {
     path: '**',
+    name: '404',
     component: () => import('pages/Error404.vue')
   }
 ];

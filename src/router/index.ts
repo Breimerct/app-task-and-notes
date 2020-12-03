@@ -21,17 +21,19 @@ export default route<Store<StateInterface>>(function({ Vue }) {
   });
 
   Router.beforeEach((to, from, next) => {
-    const currentUser = firebase.auth().currentUser;
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     const requireAuth = to.matched.some(r => r.meta.requireAuth);
 
-    if (!currentUser && requireAuth) {
-      next('login');
-    } else if (!requireAuth && currentUser) {
-      next('dashboard');
-    } else {
-      next();
-    }
+    firebase.auth().onAuthStateChanged((user) => {
+      if (!user && requireAuth) {
+        next('/login');
+      } else if (!requireAuth && user) {
+        next('/dashboard');
+      } else {
+        next();
+      }
+    })
+
   });
 
   return Router;

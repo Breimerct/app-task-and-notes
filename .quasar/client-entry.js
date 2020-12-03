@@ -16,6 +16,8 @@ import '@quasar/extras/roboto-font/roboto-font.css'
 
 import '@quasar/extras/material-icons/material-icons.css'
 
+import '@quasar/extras/eva-icons/eva-icons.css'
+
 
 
 
@@ -26,10 +28,13 @@ import 'quasar/dist/quasar.sass'
 
 
 import 'src/css/app.scss'
-import './filter'
+
 
 import Vue from 'vue'
 import createApp from './app.js'
+
+
+import 'app/src-pwa/register-service-worker.js'
 
 
 
@@ -38,8 +43,10 @@ import qboot_Bootfirebase from 'boot/firebase'
 
 import qboot_Bootaxios from 'boot/axios'
 
+import qboot_Bootfilters from 'boot/filters'
 
-import firebase from 'firebase'
+
+
 
 
 
@@ -49,10 +56,15 @@ Vue.config.productionTip = false
 
 
 
-console.info('[Quasar] Running SPA.')
+console.info('[Quasar] Running PWA.')
+console.info('[Quasar] PWA: Use devtools > Application > "Bypass for network" to not break Hot Module Replacement while developing.')
 
 
 
+// Needed only for iOS PWAs
+if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream && window.navigator.standalone) {
+  import(/* webpackChunkName: "fastclick"  */ '@quasar/fastclick')
+}
 
 
 const publicPath = ``
@@ -75,7 +87,7 @@ async function start () {
   }
 
   const urlPath = window.location.href.replace(window.location.origin, '')
-  const bootFiles = [qboot_Bootfirebase,qboot_Bootaxios]
+  const bootFiles = [qboot_Bootfirebase,qboot_Bootaxios,qboot_Bootfilters]
 
   for (let i = 0; hasRedirected === false && i < bootFiles.length; i++) {
     if (typeof bootFiles[i] !== 'function') {
@@ -128,6 +140,4 @@ async function start () {
 
 }
 
-firebase.auth().onAuthStateChanged(() => {
-  start()
-})
+start()

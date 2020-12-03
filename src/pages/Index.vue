@@ -1,6 +1,6 @@
 <template>
-  <q-page class="row items-center justify-evenly">
-    <h1>{{ title | uppercase }}</h1>
+  <q-page class="row items-start justify-center q-mt-md">
+    <h1>Home</h1>
   </q-page>
 </template>
 
@@ -10,13 +10,17 @@ import Vue from 'vue';
 export default Vue.extend({
   name: 'PageIndex',
   components: {},
-  data(): {title: string} {
-    return { 
-      title: '' 
-      }
+  data(): {
+    title: string;
+    text: string;
+  } {
+    return {
+      title: '',
+      text: '',
+    };
   },
   mounted(): void {
-    this.title = 'roxana task!'
-  }
+    this.title = 'roxana task!';
+  },
 });
 </script>
