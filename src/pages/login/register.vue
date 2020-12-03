@@ -62,7 +62,7 @@
 
               <q-input
                 filled
-                :type="visibility ? 'text' : 'password'"
+                :type="visibilityConfimPass ? 'text' : 'password'"
                 v-model="form.confirmPass"
                 label="CONFIRMA LA CONTRASEÑA *"
                 lazy-rules
@@ -75,8 +75,8 @@
               >
                 <template v-slot:append>
                   <q-icon
-                    @click="visibility = !visibility"
-                    :name="visibility ? 'visibility_off' : 'visibility'"
+                    @click="visibilityConfimPass = !visibilityConfimPass"
+                    :name="visibilityConfimPass ? 'visibility_off' : 'visibility'"
                     color="gray"
                   />
                 </template>
@@ -84,13 +84,14 @@
 
               <div class="row justify-center q-gutter-sm">
                 <div>
-                  <q-btn label="guardar" type="submit" color="primary" />
+                  <q-btn label="guardar" type="submit" color="primary" icon="eva-save-outline"/>
                   <q-btn
                     label="limpiar"
                     type="reset"
                     color="primary"
                     flat
                     class="q-ml-sm"
+                    icon="eva-close-circle-outline"
                   />
                 </div>
                 <div>
@@ -101,6 +102,7 @@
                     color="primary"
                     label="iniciar sesion"
                     :to="{ name: 'login' }"
+                    icon="eva-person-outline"
                   />
                 </div>
               </div>
@@ -127,6 +129,7 @@ export default Vue.extend({
   data(): {
     isMobile: boolean;
     visibility: boolean;
+    visibilityConfimPass: boolean;
     form: formData;
   } {
     return {
@@ -138,6 +141,7 @@ export default Vue.extend({
         confirmPass: ''
       },
       visibility: false,
+      visibilityConfimPass: false,
       isMobile: this.$q.platform.is.mobile ? true : false
     };
   },

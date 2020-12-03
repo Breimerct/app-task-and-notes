@@ -4,7 +4,7 @@ import { ExampleStateInterface } from './state';
 
 const actions: ActionTree<ExampleStateInterface, StateInterface> = {
   someAction ({state}) {
-    console.log('sdf', state.prop)
+    console.log('sdf', state.prop + name)
   }
 };
 

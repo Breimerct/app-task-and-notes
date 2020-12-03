@@ -1,5 +1,6 @@
 import { store } from 'quasar/wrappers';
 import Vuex from 'vuex';
+import moduleLogin from './module-login/index'
 
 export interface StateInterface {
   example: unknown;
@@ -10,7 +11,7 @@ export default store(function ({ Vue }) {
 
   const Store = new Vuex.Store<StateInterface>({
     modules: {
-      // example
+      moduleLogin
     },
     strict: !!process.env.DEBUGGING
   });

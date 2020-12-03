@@ -40,13 +40,14 @@
 
               <div class="row justify-center q-gutter-sm">
                 <div>
-                  <q-btn label="Enviar" type="submit" color="primary" />
+                  <q-btn label="Enviar" type="submit" color="primary" icon="eva-paper-plane-outline"/>
                   <q-btn
                     label="limpiar"
                     type="reset"
                     color="primary"
                     flat
                     class="q-ml-sm"
+                    icon="eva-close-circle-outline"
                   />
                 </div>
                 <div>
@@ -57,10 +58,12 @@
                     color="primary"
                     label="Registrarme"
                     :to="{ name: 'register' }"
+                    icon="eva-person"
                   />
                 </div>
                 <div>
                   <q-btn
+                    :to="{name: 'recoverPass'}"
                     :class="{ 'q-mt-sm': isMobile }"
                     flat
                     rounded
@@ -79,6 +82,8 @@
 <script lang="ts">
 import Vue from 'vue';
 import firebase from 'firebase';
+import { mapMutations } from 'vuex'
+
 interface formData {
   user: string;
   pass: string;
@@ -101,12 +106,18 @@ export default Vue.extend({
   },
 
   methods: {
+    ...mapMutations('moduleLogin', ['setUser']),
     onSubmit(): void {
       firebase
         .auth()
         .signInWithEmailAndPassword(this.form.user, this.form.pass)
         .then(user => {
-          console.log(user);
+          this.setUser({
+            name: user.user?.displayName,
+            email: user.user?.email,
+            verified: user.user?.emailVerified,
+            isAnonymous: user.user?.isAnonymous
+          })
         });
     },
     onReset() {

@@ -1,8 +1,8 @@
 <template>
   <div>
-    <q-tabs 
-    v-model="tab" 
-    dense 
+    <q-tabs
+    v-model="tab"
+    dense
     align="justify"
     switch-indicator
     indicator-color="primary"
@@ -41,6 +41,11 @@ export default Vue.extend({
           icon: 'eva-home-outline',
           to: 'home',
           name: 'Inicio',
+        },
+        {
+          icon: 'eva-image-outline',
+          to: '#',
+          name: 'Galeria'
         }
       ],
     };

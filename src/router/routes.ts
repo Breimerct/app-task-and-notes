@@ -36,6 +36,11 @@ const routes: RouteConfig[] = [
     component: () => import('pages/login/register.vue')
   },
   {
+    path: '/recover-password',
+    name: 'recoverPass',
+    component: () => import('./../pages/login/recoverPassword.vue')
+  },
+  {
     path: '/email-verified',
     name: 'email-verified',
     component: () => import('../pages/login/emailVerified.vue')

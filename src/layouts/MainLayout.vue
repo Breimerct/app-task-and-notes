@@ -13,7 +13,7 @@
         />
 
         <q-toolbar-title>
-          {{ 'notes and tasks' | uppercase }}
+          {{ 'notas y tareas' | uppercase }}
         </q-toolbar-title>
         <div>
           <q-btn-dropdown flat round icon="account_circle">
@@ -82,7 +82,7 @@
       </q-img>
     </q-drawer>
 
-    <q-footer reveal elevated class="bg-white">
+    <q-footer reveal elevated class="bg-white" v-if="isMobile">
       <tabs-links></tabs-links>
     </q-footer>
 

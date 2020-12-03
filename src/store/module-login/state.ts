@@ -1,9 +1,14 @@
 export interface LoginState {
-  prop: boolean;
+  user:{
+    email?: string,
+    name?: string,
+    verified?: boolean,
+    isAnonymous?: boolean
+  }
 }
 
 const state: LoginState = {
-  prop: false
+  user: {}
 };
 
 export default state;
