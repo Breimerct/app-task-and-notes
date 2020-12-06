@@ -1,6 +1,6 @@
 <template>
-  <div class="recover-pass row justify-center items-center q-ma-md">
-    <div class="col-12 text-center">
+  <div class="recover-pass row absolute-center flex flex-center">
+    <div class="col-12 text-center q-pa-md">
       <div class="row">
         <div class="col-12">
           <q-card>
@@ -75,5 +75,12 @@ export default Vue.extend({
 <style lang="scss" scoped>
  .recover-pass{
    min-height: 100vh;
+   width: 50vh;
+ }
+
+ @media screen and (max-width: 550px){
+   .recover-pass {
+     width: 100%;
+   }
  }
 </style>

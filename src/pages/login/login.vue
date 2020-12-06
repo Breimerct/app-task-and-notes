@@ -1,5 +1,5 @@
 <template>
-  <section class="login row justify-center items-center">
+  <section class="login row absolute-center flex flex-center">
     <div class="row full-width q-pa-md">
       <div class="col-12">
         <q-card class="my-card">
@@ -130,8 +130,15 @@ export default Vue.extend({
 <style lang="scss" scoped>
 .login {
   min-height: 100vh;
+  width: 50vh;
 }
 .form-login {
   min-width: 100%;
+}
+
+@media screen and (max-width: 550px){
+  .login {
+    width: 100%;
+  }
 }
 </style>

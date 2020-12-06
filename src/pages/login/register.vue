@@ -1,5 +1,5 @@
 <template>
-  <section class="register row justify-center items-center text-center">
+  <section class="register row absolute-center flex flex-center">
     <div class="row full-width q-pa-md">
       <div class="col-12">
         <q-card class="my-card">
@@ -171,5 +171,12 @@ export default Vue.extend({
 <style lang="scss" scoped>
 .register {
   min-height: 100vh;
+  width: 50vh;
+}
+
+@media screen and (max-width: 550px){
+  .register {
+    width: 100%;
+  }
 }
 </style>
