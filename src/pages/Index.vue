@@ -4,8 +4,10 @@
       <div class="row q-pa-md">
         <div class="col-12">
           <q-editor
+            ref="editor"
             v-model="text"
             min-height="5rem"
+            @keypress.enter="saveTask"
             :definitions="{
               save: {
                 tip: 'Save your work',
@@ -15,13 +17,23 @@
               }
             }"
             :toolbar="[
-              ['bold', 'italic', 'strike', 'underline'],
+              ['bold', 'italic', 'underline'],
               ['upload', 'save']
               ]"
           />
         </div>
         <div class="col-12 q-mt-md">
-          <tasks-list />
+          <q-list separator>
+            <tasks-list
+              v-for="task of getTasks"
+              :key="task.id"
+              :id="task.id"
+              :state="task.state"
+              :taskName="task.name"
+              @deleteTask="deleteTask"
+              @updateTask="updateTask"
+            />
+          </q-list>
         </div>
       </div>
     </div>
@@ -30,6 +42,8 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import {mapActions, mapGetters} from 'vuex'
+import swal from 'sweetalert'
 
 export default Vue.extend({
   name: 'PageIndex',
@@ -39,24 +53,58 @@ export default Vue.extend({
 
   data(): {
     text: string;
+    isVisible: boolean
   } {
     return {
       text: '',
+      isVisible: false
     };
   },
 
+  computed: {
+    ...mapGetters('moduleTask', ['getTasks', 'getUser'])
+  },
+
   methods: {
+    ...mapActions('moduleTask', ['deleteTasks', 'saveTasks', 'updateTasks']),
+
     saveTask () {
-      this.$q.notify({
-        message: 'Tarea guardada',
-        type: 'positive',
-        progress: true,
-        timeout: 1000,
-        position: 'top-right',
-        icon: 'eva-checkmark-circle-outline',
-        classes: 'text-black'
+      this.saveTasks({
+        id: Date.now(),
+        nameTask: this.text
       })
+      this.text = ''
+      // @ts-ignore
+      this.$refs.editor.focus()
+    },
+
+    deleteTask (id: number) {
+      swal(`Hola ${this.getUser.name}`,'¿Está seguro que quiere eliminar está tarea?',{
+        buttons:['NO', 'SI'],
+        closeOnClickOutside: false
+      })
+      .then((val) => {
+        if (val) {
+          this.deleteTasks({id: id})
+        }
+      })
+    },
+
+    updateTask (task: any) {
+      if (!task.state) {
+        this.updateTasks({
+          id: task.id,
+          update: {
+            state: true
+          }
+        })
+      }
     }
   },
+
+  mounted() {
+    // @ts-ignore
+    this.$refs.editor.focus()
+  }
 });
 </script>

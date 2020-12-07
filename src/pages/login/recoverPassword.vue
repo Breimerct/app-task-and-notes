@@ -6,7 +6,7 @@
           <q-card>
             <img src="../../assets/forgot_password.svg" height="200">
             <q-card-section>
-              <q-form @submit.prevent="recoverPassword">
+              <q-form @submit.prevent="recoverPass">
                 <q-input
                 type="email"
                 label="ESCRIBE TU EMAIL"
@@ -57,7 +57,7 @@ export default Vue.extend({
 
     methods: {
       ...mapActions('moduleTask', ['recoverPassword']),
-      recoverPassword () {
+      recoverPass () {
         this.recoverPassword(this.email)
       }
     }

@@ -3,25 +3,29 @@ import { StateInterface } from '../index';
 import { StateTask } from './state';
 import firebase from 'firebase';
 import {Notify} from 'quasar';
-import {IUser} from 'src/models/interface.models';
+import {ITask, IUser} from 'src/models/interface.models';
 
 Notify.setDefaults({
   progress: true,
-  position: 'top-right',
+  position: 'top',
   classes: 'text-black',
-  timeout: 3000
+  timeout: 2000
 })
 
 const actions: ActionTree<StateTask, StateInterface> = {
   onAuthStateChange ({dispatch, commit}) {
     firebase.auth().onAuthStateChanged(user => {
+      const userAuth = user?.displayName?.split(' ') || ''
       if (user) {
         commit('setUser', {
           id: user.uid,
-          name: user.displayName,
+          fullName: user.displayName,
+          name: userAuth[0],
+          lastName: userAuth[1],
           email: user.email,
           emailVerified: user.emailVerified
         })
+        dispatch('getFirebaseTasks')
       } else {
 
       }
@@ -50,11 +54,6 @@ const actions: ActionTree<StateTask, StateInterface> = {
           email: payload.email
         })
         dispatch('logOut')
-        Notify.create({
-          type: 'positive',
-          message: `GENIAL!`,
-          caption: 'Ya puedes iniciar sesión'
-        })
       })
   },
 
@@ -91,7 +90,66 @@ const actions: ActionTree<StateTask, StateInterface> = {
         lastName: payload.lastName,
         email: payload.email
       })
-      .then(() => {})
+      .then(() => {
+        Notify.create({
+          type: 'positive',
+          message: `GENIAL!`,
+          caption: 'Ya puedes iniciar sesión'
+        })
+      })
+      .catch(console.log)
+  },
+
+  saveTasks ({state}, payload: ITask) {
+    firebase
+      .database()
+      .ref(`/tasks/${state.user.id}/${payload.id}`)
+      .set({
+        id: payload.id,
+        name: payload.nameTask,
+        state: false
+      })
+      .then(() => {
+        Notify.create({
+          message: 'Tarea guardada',
+          type: 'positive'
+        })
+      })
+      .catch(console.log)
+  },
+
+  getFirebaseTasks ({commit, state}) {
+    firebase.database().ref(`/tasks/${state.user.id}`)
+      .on('value', snapshot => {
+        commit('setTasks', snapshot.val())
+      })
+  },
+
+  deleteTasks ({state}, payload) {
+    firebase
+      .database()
+      .ref(`/tasks/${state.user.id}/${payload.id}`)
+      .remove()
+      .then(() => {
+        Notify.create({
+          type: 'info',
+          message: `Tarea eliminada`
+        })
+      })
+      .catch(console.log)
+  },
+
+  updateTasks ({state}, payload) {
+    firebase
+      .database()
+      .ref(`/tasks/${state.user.id}/${payload.id}`)
+      .update(payload.update)
+      .then(() => {
+        Notify.create({
+          type: 'info',
+          message: `Tarea realizada`
+        })
+      })
       .catch(console.log)
   }
 
