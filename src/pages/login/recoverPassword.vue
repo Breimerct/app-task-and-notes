@@ -42,7 +42,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import  firebase from 'firebase'
+import {mapActions} from 'vuex';
 
 export default Vue.extend({
     name: 'recoverPassword',
@@ -56,17 +56,9 @@ export default Vue.extend({
     },
 
     methods: {
+      ...mapActions('moduleTask', ['recoverPassword']),
       recoverPassword () {
-        firebase.auth().sendPasswordResetEmail(this.email)
-        .then(() => {
-          this.$q.notify({
-            type: 'positive',
-            message: `Revisa tu correo electronico por favor`,
-            progress: true,
-            position: 'top-right'
-          })
-          this.$router.push({name: 'login'})
-        })
+        this.recoverPassword(this.email)
       }
     }
 })

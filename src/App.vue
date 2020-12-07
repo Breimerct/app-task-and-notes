@@ -5,8 +5,16 @@
 </template>
 <script lang="ts">
 import Vue from 'vue';
-
+import { mapActions } from 'vuex'
 export default Vue.extend({
-  name: 'App'
+  name: 'App',
+
+  methods: {
+    ...mapActions('moduleTask', ['onAuthStateChange'])
+  },
+
+  mounted() {
+    this.onAuthStateChange()
+  }
 });
 </script>

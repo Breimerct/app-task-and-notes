@@ -70,7 +70,7 @@
                   val =>
                     (val !== null && val !== '') || 'Por favor escribe tu contraseña',
                     val => (val.length > 7) || 'la contraseña es muy corta',
-                    val => (val == form.pass) || 'Las contraseñas no coinciden'
+                    val => (val === form.pass) || 'Las contraseñas no coinciden'
                 ]"
               >
                 <template v-slot:append>
@@ -116,6 +116,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import firebase from 'firebase'
+import {mapActions} from 'vuex';
 
 interface formData {
   name: string;
@@ -147,16 +148,9 @@ export default Vue.extend({
   },
 
   methods: {
+    ...mapActions('moduleTask', ['register']),
     onSubmit() {
-        firebase.auth().createUserWithEmailAndPassword(this.form.email, this.form.pass)
-        .then(() => {
-            let user = firebase.auth().currentUser
-            console.log(user)
-            user?.sendEmailVerification()
-            user?.updateProfile({
-                displayName: `${this.form.name} ${this.form.lastName}`
-            })
-        })
+        this.register(this.form)
     },
     onReset() {
         this.form.name = ''

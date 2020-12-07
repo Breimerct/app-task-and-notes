@@ -1,9 +1,10 @@
 import { MutationTree } from 'vuex';
-import { ExampleStateInterface } from './state';
+import { StateTask } from './state';
+import {IUser} from 'src/models/interface.models';
 
-const mutation: MutationTree<ExampleStateInterface> = {
-  someMutation (/* state: ExampleStateInterface */) {
-    // your code
+const mutation: MutationTree<StateTask> = {
+  setUser: (state, payload:IUser) => {
+    state.user = payload
   }
 };
 
