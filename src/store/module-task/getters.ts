@@ -3,9 +3,15 @@ import { StateInterface } from '../index';
 import { StateTask } from './state';
 
 const getters: GetterTree<StateTask, StateInterface> = {
-  someAction (/* context */) {
-    // your code
+
+  getUser: state => {
+    return state.user
+  },
+
+  getTasks: state => {
+    return state.tasks
   }
+
 };
 
 export default getters;
