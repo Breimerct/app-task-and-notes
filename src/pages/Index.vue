@@ -33,7 +33,10 @@ import Vue from 'vue';
 
 export default Vue.extend({
   name: 'PageIndex',
-  components: { TasksList: () => import('../components/TasksList.vue') },
+  components: {
+    TasksList: () => import('../components/TasksList.vue')
+  },
+
   data(): {
     text: string;
   } {

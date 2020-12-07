@@ -1,5 +1,5 @@
 <template>
-  <section class="register row justify-center items-center text-center">
+  <section class="register row absolute-center flex flex-center">
     <div class="row full-width q-pa-md">
       <div class="col-12">
         <q-card class="my-card">
@@ -70,7 +70,7 @@
                   val =>
                     (val !== null && val !== '') || 'Por favor escribe tu contraseña',
                     val => (val.length > 7) || 'la contraseña es muy corta',
-                    val => (val == form.pass) || 'Las contraseñas no coinciden'
+                    val => (val === form.pass) || 'Las contraseñas no coinciden'
                 ]"
               >
                 <template v-slot:append>
@@ -116,6 +116,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import firebase from 'firebase'
+import {mapActions} from 'vuex';
 
 interface formData {
   name: string;
@@ -147,16 +148,9 @@ export default Vue.extend({
   },
 
   methods: {
+    ...mapActions('moduleTask', ['register']),
     onSubmit() {
-        firebase.auth().createUserWithEmailAndPassword(this.form.email, this.form.pass)
-        .then(() => {
-            let user = firebase.auth().currentUser
-            console.log(user)
-            user?.sendEmailVerification()
-            user?.updateProfile({
-                displayName: `${this.form.name} ${this.form.lastName}`
-            })
-        })
+        this.register(this.form)
     },
     onReset() {
         this.form.name = ''
@@ -171,5 +165,12 @@ export default Vue.extend({
 <style lang="scss" scoped>
 .register {
   min-height: 100vh;
+  width: 50vh;
+}
+
+@media screen and (max-width: 550px){
+  .register {
+    width: 100%;
+  }
 }
 </style>

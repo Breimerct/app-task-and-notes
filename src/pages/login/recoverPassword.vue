@@ -1,6 +1,6 @@
 <template>
-  <div class="recover-pass row justify-center items-center q-ma-md">
-    <div class="col-12 text-center">
+  <div class="recover-pass row absolute-center flex flex-center">
+    <div class="col-12 text-center q-pa-md">
       <div class="row">
         <div class="col-12">
           <q-card>
@@ -42,7 +42,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import  firebase from 'firebase'
+import {mapActions} from 'vuex';
 
 export default Vue.extend({
     name: 'recoverPassword',
@@ -56,17 +56,9 @@ export default Vue.extend({
     },
 
     methods: {
+      ...mapActions('moduleTask', ['recoverPassword']),
       recoverPassword () {
-        firebase.auth().sendPasswordResetEmail(this.email)
-        .then(() => {
-          this.$q.notify({
-            type: 'positive',
-            message: `Revisa tu correo electronico por favor`,
-            progress: true,
-            position: 'top-right'
-          })
-          this.$router.push({name: 'login'})
-        })
+        this.recoverPassword(this.email)
       }
     }
 })
@@ -75,5 +67,12 @@ export default Vue.extend({
 <style lang="scss" scoped>
  .recover-pass{
    min-height: 100vh;
+   width: 50vh;
+ }
+
+ @media screen and (max-width: 550px){
+   .recover-pass {
+     width: 100%;
+   }
  }
 </style>

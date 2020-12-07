@@ -27,23 +27,29 @@ const routes: RouteConfig[] = [
   },
   {
     path: '/login',
-    name: 'login',
-    component: () => import('pages/login/login.vue')
-  },
-  {
-    path: '/register',
-    name: 'register',
-    component: () => import('pages/login/register.vue')
-  },
-  {
-    path: '/recover-password',
-    name: 'recoverPass',
-    component: () => import('./../pages/login/recoverPassword.vue')
-  },
-  {
-    path: '/email-verified',
-    name: 'email-verified',
-    component: () => import('../pages/login/emailVerified.vue')
+    component: () => import('../layouts/LoginLayout.vue'),
+    children: [
+      {
+        path: '/login',
+        name: 'login',
+        component: () => import('pages/login/login.vue')
+      },
+      {
+        path: '/register',
+        name: 'register',
+        component: () => import('pages/login/register.vue')
+      },
+      {
+        path: '/recover-password',
+        name: 'recoverPass',
+        component: () => import('./../pages/login/recoverPassword.vue')
+      },
+      {
+        path: '/email-verified',
+        name: 'email-verified',
+        component: () => import('../pages/login/emailVerified.vue')
+      }
+    ]
   },
   {
     path: '**',

@@ -1,5 +1,5 @@
 <template>
-  <section class="login row justify-center items-center">
+  <section class="login row absolute-center flex flex-center">
     <div class="row full-width q-pa-md">
       <div class="col-12">
         <q-card class="my-card">
@@ -9,7 +9,7 @@
             <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
               <q-input
                 filled
-                v-model="form.user"
+                v-model="form.email"
                 label="EMAIL *"
                 type="email"
                 lazy-rules
@@ -52,7 +52,6 @@
                 </div>
                 <div>
                   <q-btn
-                    :class="{ 'q-mt-sm': isMobile }"
                     flat
                     rounded
                     color="primary"
@@ -64,7 +63,6 @@
                 <div>
                   <q-btn
                     :to="{name: 'recoverPass'}"
-                    :class="{ 'q-mt-sm': isMobile }"
                     flat
                     rounded
                     color="primary"
@@ -81,11 +79,10 @@
 </template>
 <script lang="ts">
 import Vue from 'vue';
-import firebase from 'firebase';
-import { mapMutations } from 'vuex'
+import { mapActions } from 'vuex'
 
 interface formData {
-  user: string;
+  email: string;
   pass: string;
 }
 
@@ -97,7 +94,7 @@ export default Vue.extend({
   } {
     return {
       form: {
-        user: '',
+        email: '',
         pass: ''
       },
       isMobile: this.$q.platform.is.mobile ? true : false,
@@ -106,22 +103,12 @@ export default Vue.extend({
   },
 
   methods: {
-    ...mapMutations('moduleLogin', ['setUser']),
+    ...mapActions('moduleTask', ['login']),
     onSubmit(): void {
-      firebase
-        .auth()
-        .signInWithEmailAndPassword(this.form.user, this.form.pass)
-        .then(user => {
-          this.setUser({
-            name: user.user?.displayName,
-            email: user.user?.email,
-            verified: user.user?.emailVerified,
-            isAnonymous: user.user?.isAnonymous
-          })
-        });
+      this.login(this.form)
     },
     onReset() {
-      this.form.user = '';
+      this.form.email = '';
       this.form.pass = '';
     }
   }
@@ -130,8 +117,15 @@ export default Vue.extend({
 <style lang="scss" scoped>
 .login {
   min-height: 100vh;
+  width: 50vh;
 }
 .form-login {
   min-width: 100%;
+}
+
+@media screen and (max-width: 550px){
+  .login {
+    width: 100%;
+  }
 }
 </style>

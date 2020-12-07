@@ -33,7 +33,7 @@
                 </q-item-section>
               </q-item>
 
-              <q-item clickable v-close-popup @click="onClose">
+              <q-item clickable v-close-popup @click="logOut">
                 <q-item-section>
                   <q-item-label>Cerrar sesión</q-item-label>
                 </q-item-section>
@@ -106,6 +106,7 @@ const linksData = [
 ];
 
 import Vue from 'vue';
+import {mapActions} from 'vuex';
 
 export default Vue.extend({
   name: 'MainLayout',
@@ -119,9 +120,7 @@ export default Vue.extend({
   },
 
   methods: {
-    onClose(): void {
-      firebase.auth().signOut();
-    },
+    ...mapActions('moduleTask', ['logOut']),
   },
 });
 </script>
