@@ -15,6 +15,7 @@ Notify.setDefaults({
 const actions: ActionTree<StateTask, StateInterface> = {
   onAuthStateChange ({dispatch, commit}) {
     firebase.auth().onAuthStateChanged(user => {
+      console.log(user)
       const userAuth = user?.displayName?.split(' ') || ''
       if (user) {
         commit('setUser', {
@@ -23,7 +24,8 @@ const actions: ActionTree<StateTask, StateInterface> = {
           name: userAuth[0],
           lastName: userAuth[1],
           email: user.email,
-          emailVerified: user.emailVerified
+          emailVerified: user.emailVerified,
+          photoURL: user.photoURL
         })
         dispatch('getFirebaseTasks')
       } else {

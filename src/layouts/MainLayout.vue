@@ -21,8 +21,11 @@
               <q-item>
                 <q-item-section>
                   <q-item-label class="text-center">
-                    <q-avatar>
-                      <img src="../assets/perfil2.jpg" />
+                    <q-avatar color="primary" class="text-white">
+                      <img src="../assets/perfil2.jpg" v-if="getUser.photoURL"/>
+                      <span>
+                        {{ getInitialName }}
+                      </span>
                     </q-avatar>
                   </q-item-label>
                 </q-item-section>
@@ -73,11 +76,13 @@
         style="height: 150px"
       >
         <div class="absolute-bottom bg-transparent">
-          <q-avatar size="76px" class="q-mb-sm">
-            <img src="./../assets/perfil2.jpg" />
+          <q-avatar size="85px" class="q-mb-sm" color="primary">
+            <img src="./../assets/perfil2.jpg" v-if="this.getUser.photoURL"/>
+            <span v-else>
+              {{ getInitialName }}
+            </span>
           </q-avatar>
-          <div class="text-weight-bold">Roxana Simancas</div>
-          <div>@RSIMANCAS</div>
+          <div class="text-weight-bold text-h5"> {{ this.getUser.fullName }} </div>
         </div>
       </q-img>
     </q-drawer>
@@ -93,8 +98,9 @@
 </template>
 
 <script lang="ts">
+import Vue from 'vue';
+import { mapActions, mapGetters } from 'vuex';
 import EssentialLink from 'components/EssentialLink.vue';
-import firebase from 'firebase';
 import TabsLinks from 'src/components/TabsLinks.vue';
 
 const linksData = [
@@ -105,9 +111,6 @@ const linksData = [
   },
 ];
 
-import Vue from 'vue';
-import {mapActions} from 'vuex';
-
 export default Vue.extend({
   name: 'MainLayout',
   components: { EssentialLink, TabsLinks },
@@ -117,6 +120,16 @@ export default Vue.extend({
       essentialLinks: linksData,
       isMobile: this.$q.platform.is.mobile
     };
+  },
+
+  computed: {
+    ...mapGetters('moduleTask', ['getUser']),
+    getInitialName () {
+      let name = this.getUser.name.split('')
+      let lastName = this.getUser.lastName.split('')
+
+      return `${name[0]}${lastName[0]}`
+    }
   },
 
   methods: {
