@@ -130,7 +130,7 @@ module.exports = configure(function (ctx) {
       workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {}, // only for GenerateSW
       manifest: {
-        name: 'Roxana task',
+        name: 'NOTAS Y TAREAS',
         short_name: 'Roxana task',
         description: 'es una app para que roxana deje de guardar todos sus archivos en el chat de whatsapp y no me llegue la galeria de tantas fotos y documentos.',
         display: 'standalone',
@@ -197,7 +197,7 @@ module.exports = configure(function (ctx) {
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        appId: 'roxana-task'
+        appId: 'tasks-and-notes'
       },
 
       // More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration

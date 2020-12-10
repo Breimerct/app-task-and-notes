@@ -10,9 +10,9 @@
             @keypress.enter="saveTask"
             :definitions="{
               save: {
-                tip: 'Save your work',
+                tip: 'guardar tareas',
                 icon: 'save',
-                label: 'Save',
+                label: 'Guardar',
                 handler: saveTask
               }
             }"

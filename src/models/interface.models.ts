@@ -4,7 +4,8 @@ interface IUser {
   name?: string,
   lastName?: string,
   email?: string,
-  emailVerified?: boolean
+  emailVerified?: boolean,
+  photoURL?: String
 }
 interface ITask {
   id: number,

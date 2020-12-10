@@ -1,0 +1,14 @@
+{
+  "rules": {
+    "users": {
+      ".read": "auth != null",
+      ".write": true
+    },
+    "tasks": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+    ".read": false,
+    ".write": false
+  }
+}
